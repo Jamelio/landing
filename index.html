@@ -3,6 +3,7 @@
 <head>
     <title>Jamelio: Free Random Video Chat - Talk to Strangers</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/lottie.js" type="text/javascript"></script>
 </head>
 <style>
     *, body {
@@ -22,13 +23,28 @@
         right: 0;
         bottom: 0;
         top: 0;
+        flex-direction: column;
     }
 
     h1 {
         text-align: center;
+        margin: 0 50px;
     }
 </style>
 
+<div id="animation"></div>
+<br>
+<br>
+<br>
 <h1>The best one-on-one stranger video chat will be here</h1>
 </body>
+<script>
+  lottie.loadAnimation({
+    container: document.getElementById('animation'), // the dom element that will contain the animation
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'animation/animation.json' // the path to the animation json
+  });
+</script>
 </html>
