@@ -1,37 +1,48 @@
 import React from 'react';
 import { MainContainer } from './Viewport.styles';
-
-const constraints = {
-  audio: false,
-  video: true,
-}
+import { useConnector } from '../PeerConnector/useConnector';
 
 const Viewport = () => {
-  const handleSuccess = (stream: any) => {
-    const video = document.querySelector('video');
-    const videoTracks = stream.getVideoTracks();
-    // console.log('Got stream with constraints:', constraints);
-    // console.log(`Using video device: ${videoTracks[0].label}`);
-    (window as any).stream = stream; // make variable available to browser console
-    (video as any).srcObject = stream;
-  };
-
-  const init = async (e: any) => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      handleSuccess(stream);
-      e.target.disabled = true;
-    } catch (e) {
-      // handleError(e);
-    }
-  }
+  const { peerId, setPeerId, connectToServer, setRecipientPeerId, recipientPeerId, connectToPeer } = useConnector();
 
   return (
     <MainContainer>
-      <button onClick={init} id="showVideo">Open camera</button>
-      <video id="gum-local" autoPlay playsInline />
+      <input placeholder="Your nickname"
+             value={peerId}
+             type="text" onChange={(e) => {
+        setPeerId(e.currentTarget.value)
+      }} />
+      <button onClick={() => {
+        connectToServer().catch(console.log)
+      }}>Connect to server
+      </button>
+      <br />
+      <br />
+      <br />
+      <br />
 
-      <div id="errorMsg" />
+      <input placeholder="Recipient nickname"
+             value={recipientPeerId}
+             type="text" onChange={(e) => {
+        setRecipientPeerId(e.currentTarget.value)
+      }} />
+      <button onClick={() => {
+        connectToPeer(recipientPeerId).catch(console.log)
+      }}>Connect to peer
+      </button>
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <p>Me</p>
+      <video id="me" autoPlay playsInline />
+
+      <p>Guest</p>
+      <video id="recipient" autoPlay playsInline />
+
     </MainContainer>
   )
 

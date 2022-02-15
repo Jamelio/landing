@@ -5,8 +5,15 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: black;
-    padding: 0;
+    padding: 10px;
     margin: 0;
+  }
+
+  video {
+    background: green;
+    margin: 5px;
+    width: 200px;
+    display: block;
   }
 `
 

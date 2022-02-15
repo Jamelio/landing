@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack')
 const dotenv = require('dotenv')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const fs = require("fs");
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js']
   },
   module: {
+    exprContextCritical: false,
     rules: [
       {
         test: /\.tsx?$/,
@@ -25,7 +27,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, '../peer-server/client')
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -36,10 +38,15 @@ module.exports = {
     })
   ],
   devServer: {
+    https: {
+      key: fs.readFileSync('./certs/jamelio.local+2-key.pem'),
+      cert: fs.readFileSync('./certs/jamelio.local+2.pem'),
+    },
+    allowedHosts: 'all',
     static: {
       directory: path.join(__dirname, 'dist'),
     },
     compress: true,
-    port: 9000,
+    port: 443,
   },
 }
